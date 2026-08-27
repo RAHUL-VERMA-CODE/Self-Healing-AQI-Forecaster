@@ -1,0 +1,7 @@
+setup.py
+Self_Healing_AQI_Forecaster.egg-info/PKG-INFO
+Self_Healing_AQI_Forecaster.egg-info/SOURCES.txt
+Self_Healing_AQI_Forecaster.egg-info/dependency_links.txt
+Self_Healing_AQI_Forecaster.egg-info/requires.txt
+Self_Healing_AQI_Forecaster.egg-info/top_level.txt
+src/__init__.py

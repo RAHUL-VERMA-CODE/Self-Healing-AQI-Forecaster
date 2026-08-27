@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: Self-Healing-AQI-Forecaster
+Version: 0.0.1
+Author: Rahul verma
+Author-email: rahulverma96259@gmail.com
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
