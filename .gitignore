@@ -2,6 +2,10 @@
 venv/
 .venv/
 
+# artifacts folder
+# Artifacts
+artifacts/
+
 # Python cache
 __pycache__/
 *.py[cod]

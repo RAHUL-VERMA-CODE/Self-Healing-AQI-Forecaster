@@ -35,8 +35,8 @@ class DataIngestionConfig:
         self.train_test_split_ratio: float = (
             training_pipeline.DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO
         )
-class DataValidation:
-    def __int__(self,training_pipeline_config:TrainingPipelineConfig):
+class DataValidationConfig:
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig): 
         self.data_validation_dir:str=os.path.join(
             training_pipeline_config.artifacts_dir,
             training_pipeline.DATA_VALIDATION_DIR_NAME
