@@ -1,4 +1,6 @@
 columns:
+  timestamp: object
+  location_name: object
   location_lat: float64
   location_lon: float64
   co: float64
@@ -8,26 +10,6 @@ columns:
   pm25: float64
   so2: float64
   aqi: float64
-  hour: int64
-  day: int64
-  month: int64
-  year: int64
-  day_of_week: int64
-  is_weekend: int64
-  pm25_lag_1hr: float64
-  pm25_lag_3hr: float64
-  pm25_rolling_mean_6hr: float64
-  pm10_lag_1hr: float64
-  pm10_lag_3hr: float64
-  pm10_rolling_mean_6hr: float64
-  aqi_lag_1hr: float64
-  aqi_lag_3hr: float64
-  aqi_rolling_mean_6hr: float64
-  location_name_Delhi: int64
-  location_name_Faridabad: int64
-  location_name_Ghaziabad: int64
-  location_name_Gurgaon: int64
-  location_name_Noida: int64
 
 numerical_columns:
   - location_lat
@@ -39,23 +21,3 @@ numerical_columns:
   - pm25
   - so2
   - aqi
-  - hour
-  - day
-  - month
-  - year
-  - day_of_week
-  - is_weekend
-  - pm25_lag_1hr
-  - pm25_lag_3hr
-  - pm25_rolling_mean_6hr
-  - pm10_lag_1hr
-  - pm10_lag_3hr
-  - pm10_rolling_mean_6hr
-  - aqi_lag_1hr
-  - aqi_lag_3hr
-  - aqi_rolling_mean_6hr
-  - location_name_Delhi
-  - location_name_Faridabad
-  - location_name_Ghaziabad
-  - location_name_Gurgaon
-  - location_name_Noida
