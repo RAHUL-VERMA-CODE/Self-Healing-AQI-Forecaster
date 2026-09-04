@@ -1,0 +1,33 @@
+aqi:
+  drift_status: true
+  p_value: 0.04959628230721114
+co:
+  drift_status: true
+  p_value: 3.937754434381767e-10
+day_of_week:
+  drift_status: false
+  p_value: 0.07530072378795183
+hour:
+  drift_status: false
+  p_value: 0.16148580992322614
+is_weekend:
+  drift_status: false
+  p_value: 0.4513979089181954
+month:
+  drift_status: true
+  p_value: 0.0005065371508451839
+no2:
+  drift_status: true
+  p_value: 0.03199262979063022
+o3:
+  drift_status: true
+  p_value: 0.00944014425280263
+pm10:
+  drift_status: false
+  p_value: 0.46228260633121043
+pm25:
+  drift_status: false
+  p_value: 0.8087769289034553
+so2:
+  drift_status: true
+  p_value: 0.0010209748778222023

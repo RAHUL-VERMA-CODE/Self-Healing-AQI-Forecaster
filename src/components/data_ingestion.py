@@ -12,86 +12,51 @@ class DataIngestion:
     def __init__(self, data_ingestion_config: DataIngestionConfig):
         try:
             self.data_ingestion_config = data_ingestion_config
-            logging.info("Data ingestion configuration initialized successfully")
         except Exception as e:
             raise customException(e, sys)
 
     def split_data_as_train_test(self, dataframe: pd.DataFrame):
         try:
-            logging.info("Starting time-based train-test split.")
-
             dataframe["timestamp"] = pd.to_datetime(dataframe["timestamp"])
-            dataframe = dataframe.sort_values(
-                by="timestamp"
-            ).reset_index(drop=True)
+            dataframe = dataframe.sort_values(by="timestamp").reset_index(drop=True)
 
             test_size = self.data_ingestion_config.train_test_split_ratio
-            split_index = int(len(dataframe) * (1 - test_size))
 
-            train_set = dataframe.iloc[:split_index].copy()
-            test_set = dataframe.iloc[split_index:].copy()
+            # split by unique timestamp, not row index — all 5 locations share
+            # the same hours, so splitting by index would leak rows across sets
+            unique_ts = dataframe["timestamp"].unique()
+            cutoff_ts = unique_ts[int(len(unique_ts) * (1 - test_size))]
 
-            logging.info(
-                f"Train shape: {train_set.shape}, "
-                f"Test shape: {test_set.shape}"
-            )
-            logging.info(
-                f"Train period: {train_set['timestamp'].min()} -> "
-                f"{train_set['timestamp'].max()}"
-            )
-            logging.info(
-                f"Test period: {test_set['timestamp'].min()} -> "
-                f"{test_set['timestamp'].max()}"
-            )
+            train_set = dataframe[dataframe["timestamp"] < cutoff_ts].copy()
+            test_set = dataframe[dataframe["timestamp"] >= cutoff_ts].copy()
 
-            dir_path = os.path.dirname(
-                self.data_ingestion_config.training_file_path
-            )
-            os.makedirs(dir_path, exist_ok=True)
+            logging.info(f"Train: {train_set.shape}, Test: {test_set.shape}")
 
-            train_set.to_csv(
-                self.data_ingestion_config.training_file_path,
-                index=False
-            )
-            test_set.to_csv(
-                self.data_ingestion_config.testing_file_path,
-                index=False
-            )
+            os.makedirs(os.path.dirname(self.data_ingestion_config.training_file_path), exist_ok=True)
+            train_set.to_csv(self.data_ingestion_config.training_file_path, index=False)
+            test_set.to_csv(self.data_ingestion_config.testing_file_path, index=False)
 
-            logging.info(
-                f"Training file saved at: "
-                f"{self.data_ingestion_config.training_file_path}"
-            )
-            logging.info(
-                f"Testing file saved at: "
-                f"{self.data_ingestion_config.testing_file_path}"
-            )
+            # stable path (not timestamped) — DriftMonitor always reads this
+            # as the "latest" baseline, regardless of which run folder it's in
+            os.makedirs("final", exist_ok=True)
+            train_set.to_csv(os.path.join("final", "train.csv"), index=False)
 
         except Exception as e:
             raise customException(e, sys)
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            logging.info("========== Data Ingestion Started ==========")
-
+            # keep schema in sync with new_data/incoming.csv — check_and_retrain.py
+            # merges the two, so they must have identical columns
             df = pd.read_csv("AQI_Data/AQI_cleaned.csv")
             logging.info(f"Raw dataset shape: {df.shape}")
 
             self.split_data_as_train_test(df)
 
-            data_ingestion_artifact = DataIngestionArtifact(
-                trained_file_path=(
-                    self.data_ingestion_config.training_file_path
-                ),
-                test_file_path=(
-                    self.data_ingestion_config.testing_file_path
-                )
+            return DataIngestionArtifact(
+                trained_file_path=self.data_ingestion_config.training_file_path,
+                test_file_path=self.data_ingestion_config.testing_file_path
             )
-
-            logging.info("Data Ingestion Artifact created successfully.")
-            logging.info("========== Data Ingestion Completed ==========")
-
-            return data_ingestion_artifact
 
         except Exception as e:
             raise customException(e, sys)

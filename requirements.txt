@@ -5,4 +5,8 @@ PyYAML
 xgboost
 dagshub
 mlflow
+python-dotenv
+fastapi
+uvicorn
+pydantic
 # -e .

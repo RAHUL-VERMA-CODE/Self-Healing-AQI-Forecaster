@@ -1,19 +1,19 @@
 columns:
-  timestamp: object
-  location_name: object
-  location_lat: float64
-  location_lon: float64
-  co: float64
-  no2: float64
-  o3: float64
-  pm10: float64
-  pm25: float64
-  so2: float64
-  aqi: float64
+  - timestamp: object
+  - location_name: object
+  - co: float64
+  - no2: float64
+  - o3: float64
+  - pm10: float64
+  - pm25: float64
+  - so2: float64
+  - aqi: float64
+  - hour: int64
+  - month: int64
+  - day_of_week: int64
+  - is_weekend: int64
 
 numerical_columns:
-  - location_lat
-  - location_lon
   - co
   - no2
   - o3
@@ -21,3 +21,12 @@ numerical_columns:
   - pm25
   - so2
   - aqi
+  - hour
+  - month
+  - day_of_week
+  - is_weekend
+
+categorical_columns:
+  - location_name
+
+target_column: target_aqi
